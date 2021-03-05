@@ -1,0 +1,15 @@
+{
+  "name": "scraper",
+  "version": "1.0.0",
+  "description": "Jana's Scraper",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "Jana",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^12.0.0"
+  }
+}
