@@ -5,7 +5,7 @@ const JAVASCRIPT = `
 function main() {
   alert("Hello Bill");
   try {
-    return document.title;
+    return document.getElementsByClassName("SarWorkspace_narrativeTextArea__N6mua")[0].value;
   } catch (e) {
     return "title is undefined";
   }
@@ -19,7 +19,7 @@ async function javascriptLoop(win) {
     await new Promise((resolve, reject) => setTimeout(resolve, 5000));
     const response = await win.webContents.executeJavaScript(JAVASCRIPT);
     // fs.writeFile('/Users/wdestein/tmp/jana', response);
-    fs.writeFileSync('/Users/wdestein/tmp/jana', `response: ${response}`);
+    fs.writeFileSync('', `response: ${response}`);
   }
 }
 
@@ -34,9 +34,9 @@ function createWindow () {
   })
 
   win.webContents.openDevTools({mode: 'detach'});
-  
+
   // Load the website
-  win.loadURL('http://wade-road-east.com')
+  win.loadURL('URL')
 
   // Run the javascript loop
   javascriptLoop(win);
@@ -55,3 +55,24 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+// The below part returned some document names successfully:
+
+// const JAVASCRIPT = `
+// function main() {
+//   alert("Hello Bill");
+//   try {
+//     var elems = document.getElementsByClassName("AttachmentItem_attachmentName__3BpVZ");
+//     var result = [];
+//     for(var i=0; i<elems.length; i++) {
+//       result.push(elems[i].innerHTML)
+//     }
+//     return result;
+//
+//
+//   } catch (e) {
+//     return "title is undefined";
+//   }
+// }
+// main();
+// `.trim();
