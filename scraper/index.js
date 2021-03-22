@@ -1,3 +1,5 @@
+
+
 const { app, BrowserWindow } = require('electron')
 const fs = require('fs')
 const JAVASCRIPT = `
@@ -5,20 +7,21 @@ function main() {
   let message = "";
   try {
     const divs = document.getElementsByClassName("CollapsibleFormSection_headerTopLeft__2OtaC");
+    let res = [];
     for (var i = 0; i < divs.length; i += 1) {
       const div = divs[i];
-      // retrieving this element works
       if (div.innerHTML.startsWith("Home")) {
         div.click();
-        return document.getElementsByName("filingName")[0].value;
-        // this element below is successfully retrieved when it is an only if statement
-
-        //       if (div.innerHTML.startsWith("Step 5")) {
-        //         div.click();
-        //
-        //         return document.getElementsByClassName("SarWorkspace_narrativeTextArea__2-k62")[0].value;
+        res.push(document.getElementsByName("filingName")[0].value);
       }
+      if (div.innerHTML.startsWith("Step 5")) {
+        div.click();
+        res.push(document.getElementsByClassName("SarWorkspace_narrativeTextArea__2-k62")[0].value);
+
+      }
+
     }
+    return res;
   } catch (e) {
     message = e.toString();
   }
@@ -28,15 +31,20 @@ main();
 `.trim();
 
 async function javascriptLoop(win) {
-  while(true) {
-    await new Promise((resolve, reject) => setTimeout(resolve, 5000));
+
+    await new Promise((resolve, reject) => setTimeout(resolve, 15000));
     try {
       const response = await win.webContents.executeJavaScript(JAVASCRIPT);
-      console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response[0]));
+      // console.log(typeof response);
+      const rescase = response[0].replace(/\\n/g, '');
+      console.log(rescase);
+      console.log(response[1].replace(/\\n/g, ''));
+
     } catch(e) {
       console.log(e.toString());
     }
-  }
+
 }
 function createWindow () {
   const win = new BrowserWindow({
@@ -49,7 +57,7 @@ function createWindow () {
   })
   win.webContents.openDevTools({mode: 'detach'});
   // Load the website
-  win.loadURL('https://dashboard.unit21.com/filings/sar/1895074')
+  win.loadURL('https://dashboard.unit21.com/filings/sar/1918705')
   // Run the javascript loop
   javascriptLoop(win);
 }
